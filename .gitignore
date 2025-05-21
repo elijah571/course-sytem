@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Environment variables
+.env
+.env.*.local
+
+# Directory for uploaded files (if any local uploads)
+uploads/
+tmp/
+
+# Optional npm cache directory
+.npm/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Build files
+dist/
+build/
+
+# Swagger generated docs (if any)
+swagger.json
+swagger.yaml
