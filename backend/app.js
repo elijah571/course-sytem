@@ -2,13 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
 
 import { connect } from "./config/connectDB.js";
 import { authRouter } from "./routes/authRoute.js";
 import { userRouter } from "./routes/userRoute.js";
-import router from "./routes/courseRoute.js";
+import { courseRoute } from "./routes/courseRoute.js";
 
 dotenv.config();
 
@@ -25,6 +23,6 @@ app.use(cookieParser());
 // API routes
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/api/courses", router);
+app.use("/api/course", courseRoute);
 // Connect to the database
 connect();

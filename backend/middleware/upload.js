@@ -1,32 +1,36 @@
-import fs from "fs";
-import path from "path";
 import multer from "multer";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const uploadFolder = path.join(__dirname, "../uploads");
-
-// Check if the folder exists, if not, create it
-if (!fs.existsSync(uploadFolder)) {
-  fs.mkdirSync(uploadFolder);
-}
-
+// Set our multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadFolder);
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
   },
 });
 
-const upload = multer({ storage });
+// File filter function
+const checkFileFilter = (req, file, cb) => {
+  if (
+    file.mimetype.startsWith("image/") ||
+    file.mimetype.startsWith("video/")
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error("Please upload an image or video"));
+  }
+};
 
-export const uploadCourseFiles = upload.fields([
-  { name: "image", maxCount: 1 },
-  { name: "videos", maxCount: 10 },
-]);
+// Middleware
+export const multerMiddleware = multer({
+  storage: storage,
+  fileFilter: checkFileFilter,
+  limits: {
+    fileSize: 50 * 1024 * 1024,
+  },
+});
